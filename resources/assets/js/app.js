@@ -41,7 +41,9 @@ if (token) {
  */
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
+import Vue from 'vue';
 
-const app = new Vue({
-    el: '#app'
-});
+// const app = new Vue({
+//     el: '#app'
+// });
+new Vue().$mount('#app');
