@@ -43,10 +43,11 @@ if (token) {
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 import Vue from 'vue';
 import router from './routes'
-
+import store from './store.js'
 // const app = new Vue({
 //     el: '#app'
 // });
 new Vue({
-    router
+    router,
+    store
 }).$mount('#app');
