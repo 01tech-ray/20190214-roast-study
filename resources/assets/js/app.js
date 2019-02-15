@@ -42,8 +42,11 @@ if (token) {
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 import Vue from 'vue';
+import router from './routes'
 
 // const app = new Vue({
 //     el: '#app'
 // });
-new Vue().$mount('#app');
+new Vue({
+    router
+}).$mount('#app');
