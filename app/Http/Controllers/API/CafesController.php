@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cafe;
+use App\Http\Requests\StoreCafeRequest;
 
 class CafesController extends Controller
 {
@@ -19,14 +20,14 @@ class CafesController extends Controller
         return response()->json($cafe);
     }
 
-    public function postNewCafe(){
+    public function postNewCafe(StoreCafeRequest $request){
         $cafe = new Cafe();
 
-        $cafe->name     = request()->get('name');
-        $cafe->address  = request()->get('address');
-        $cafe->city     = request()->get('city');
-        $cafe->state    = request()->get('state');
-        $cafe->zip      = request()->get('zip');
+        $cafe->name     = $request->get('name');
+        $cafe->address  = $request->get('address');
+        $cafe->city     = $request->get('city');
+        $cafe->state    = $request->get('state');
+        $cafe->zip      = $request->get('zip');
 
         $cafe->save();
 

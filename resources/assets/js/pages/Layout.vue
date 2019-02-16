@@ -1,5 +1,5 @@
 <style>
-
+ @import '~@/abstracts/_variables.scss';
 </style>
 
 <template>

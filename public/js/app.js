@@ -56538,10 +56538,10 @@ if(false) {
 
 exports = module.exports = __webpack_require__(1)(false);
 // imports
-
+exports.i(__webpack_require__(84), "");
 
 // module
-exports.push([module.i, "\n\n", ""]);
+exports.push([module.i, "\n", ""]);
 
 // exports
 
@@ -57301,10 +57301,10 @@ if(false) {
 
 exports = module.exports = __webpack_require__(1)(false);
 // imports
-
+exports.i(__webpack_require__(83), "");
 
 // module
-exports.push([module.i, "\n\n", ""]);
+exports.push([module.i, " \n", ""]);
 
 // exports
 
@@ -57358,29 +57358,113 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      name: '',
-      address: '',
-      city: '',
-      state: '',
-      zip: ''
-    };
-  },
+    data: function data() {
+        return {
+            name: '',
+            address: '',
+            city: '',
+            state: '',
+            zip: '',
+            validations: {
+                name: {
+                    is_valid: true,
+                    text: ''
+                },
+                address: {
+                    is_valid: true,
+                    text: ''
+                },
+                city: {
+                    is_valid: true,
+                    text: ''
+                },
+                state: {
+                    is_valid: true,
+                    text: ''
+                },
+                zip: {
+                    is_valid: true,
+                    text: ''
+                }
+            }
+        };
+    },
 
-  methods: {
-    submitNewCafe: function submitNewCafe() {
-      this.$store.dispatch('addCafe', {
-        name: this.name,
-        address: this.address,
-        city: this.city,
-        state: this.state,
-        zip: this.zip
-      });
+    methods: {
+        submitNewCafe: function submitNewCafe() {
+            if (this.validateNewCafe()) {
+                this.$store.dispatch('addCafe', {
+                    name: this.name,
+                    address: this.address,
+                    city: this.city,
+                    state: this.state,
+                    zip: this.zip
+                });
+            }
+        },
+        validateNewCafe: function validateNewCafe() {
+            var validNewCafeForm = true;
+
+            // 确保 name 字段不为空
+            if (this.name.trim() === '') {
+                validNewCafeForm = false;
+                this.validations.name.is_valid = false;
+                this.validations.name.text = '请输入咖啡店的名字';
+            } else {
+                this.validations.name.is_valid = true;
+                this.validations.name.text = '';
+            }
+
+            // 确保 address 字段不为空
+            if (this.address.trim() === '') {
+                validNewCafeForm = false;
+                this.validations.address.is_valid = false;
+                this.validations.address.text = '请输入咖啡店的地址!';
+            } else {
+                this.validations.address.is_valid = true;
+                this.validations.address.text = '';
+            }
+
+            //  确保 city 字段不为空
+            if (this.city.trim() === '') {
+                validNewCafeForm = false;
+                this.validations.city.is_valid = false;
+                this.validations.city.text = '请输入咖啡店所在城市!';
+            } else {
+                this.validations.city.is_valid = true;
+                this.validations.city.text = '';
+            }
+
+            //  确保 state 字段不为空
+            if (this.state.trim() === '') {
+                validNewCafeForm = false;
+                this.validations.state.is_valid = false;
+                this.validations.state.text = '请输入咖啡店所在省份!';
+            } else {
+                this.validations.state.is_valid = true;
+                this.validations.state.text = '';
+            }
+
+            // 确保 zip 字段不为空且格式正确
+            if (this.zip.trim() === '' || !this.zip.match(/(^\d{6}$)/)) {
+                validNewCafeForm = false;
+                this.validations.zip.is_valid = false;
+                this.validations.zip.text = '请输入有效的邮编地址!';
+            } else {
+                this.validations.zip.is_valid = true;
+                this.validations.zip.text = '';
+            }
+
+            return validNewCafeForm;
+        }
     }
-  }
 });
 
 /***/ }),
@@ -57397,7 +57481,7 @@ var render = function() {
         _c("div", { staticClass: "grid-x grid-padding-x" }, [
           _c("div", { staticClass: "large-12 medium-12 small-12 cell" }, [
             _c("label", [
-              _vm._v("Name\n                        "),
+              _vm._v("名称\n                      "),
               _c("input", {
                 directives: [
                   {
@@ -57418,12 +57502,28 @@ var render = function() {
                   }
                 }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.validations.name.is_valid,
+                    expression: "!validations.name.is_valid"
+                  }
+                ],
+                staticClass: "validation"
+              },
+              [_vm._v(_vm._s(_vm.validations.name.text))]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "large-12 medium-12 small-12 cell" }, [
             _c("label", [
-              _vm._v("Address\n                        "),
+              _vm._v("地址\n                      "),
               _c("input", {
                 directives: [
                   {
@@ -57444,12 +57544,28 @@ var render = function() {
                   }
                 }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.validations.address.is_valid,
+                    expression: "!validations.address.is_valid"
+                  }
+                ],
+                staticClass: "validation"
+              },
+              [_vm._v(_vm._s(_vm.validations.address.text))]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "large-12 medium-12 small-12 cell" }, [
             _c("label", [
-              _vm._v("City\n                        "),
+              _vm._v("城市\n                      "),
               _c("input", {
                 directives: [
                   {
@@ -57470,12 +57586,28 @@ var render = function() {
                   }
                 }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.validations.city.is_valid,
+                    expression: "!validations.city.is_valid"
+                  }
+                ],
+                staticClass: "validation"
+              },
+              [_vm._v(_vm._s(_vm.validations.city.text))]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "large-12 medium-12 small-12 cell" }, [
             _c("label", [
-              _vm._v("State\n                        "),
+              _vm._v("省份\n                      "),
               _c("input", {
                 directives: [
                   {
@@ -57496,12 +57628,28 @@ var render = function() {
                   }
                 }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.validations.state.is_valid,
+                    expression: "!validations.state.is_valid"
+                  }
+                ],
+                staticClass: "validation"
+              },
+              [_vm._v(_vm._s(_vm.validations.state.text))]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "large-12 medium-12 small-12 cell" }, [
             _c("label", [
-              _vm._v("Zip\n                        "),
+              _vm._v("邮编\n                      "),
               _c("input", {
                 directives: [
                   {
@@ -57522,7 +57670,23 @@ var render = function() {
                   }
                 }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.validations.zip.is_valid,
+                    expression: "!validations.zip.is_valid"
+                  }
+                ],
+                staticClass: "validation"
+              },
+              [_vm._v(_vm._s(_vm.validations.zip.text))]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "large-12 medium-12 small-12 cell" }, [
@@ -57693,6 +57857,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_cafes_js__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_users_js__ = __webpack_require__(85);
 
 
 
@@ -57700,9 +57865,11 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 
 
+
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     modules: {
-        cafes: __WEBPACK_IMPORTED_MODULE_2__modules_cafes_js__["a" /* default */]
+        cafes: __WEBPACK_IMPORTED_MODULE_2__modules_cafes_js__["a" /* default */],
+        users: __WEBPACK_IMPORTED_MODULE_3__modules_users_js__["a" /* default */]
     }
 }));
 
@@ -58877,6 +59044,128 @@ var ROAST_CONFIG = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "span.validation{\r\n    color: red;\r\n    display: block;\r\n  }", ""]);
+
+// exports
+
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "$white: #FFFFFF;\r\n$black: #111111;\r\n\r\n$primary-color: #7F6D50;\r\n$secondary-color: #FFBE54;\r\n$highlight-color: #FFDBA0;\r\n$dark-color: #7F5F2A;\r\n$dull-color: #CCAF80;\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_user_js__ = __webpack_require__(86);
+
+
+// status = 0 -> 数据尚未加载
+// status = 1 -> 数据开始加载
+// status = 2 -> 数据加载成功
+// status = 3 -> 数据加载失败
+
+var cafes = {
+    state: {
+        userLoadStatus: 0,
+        user: {}
+    },
+    actions: {
+        loadUser: function loadUser(_ref) {
+            var commit = _ref.commit;
+
+            commit('setUserLoadStatus', 1);
+
+            __WEBPACK_IMPORTED_MODULE_0__api_user_js__["a" /* default */].getUser().then(function (response) {
+                commit('setUser', response.data);
+                commit('setUserLoadStatus', 2);
+            }).catch(function () {
+                commit('setUser', {});
+                commit('setUserLoadStatus', 3);
+            });
+        }
+    },
+    mutations: {
+        setUserLoadStatus: function setUserLoadStatus(state, status) {
+            state.userLoadStatus = status;
+        },
+
+        /*
+         Sets the user
+         */
+        setUser: function setUser(state, user) {
+            state.user = user;
+        }
+    },
+    getters: {
+        getUserLoadStatus: function getUserLoadStatus(state) {
+            return state.userLoadStatus;
+        },
+        getUser: function getUser(state) {
+            return state.user;
+        }
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (cafes);
+
+/***/ }),
+/* 86 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_js__ = __webpack_require__(78);
+
+/**
+ * Imports the Roast API URL from the config.
+ */
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    /*
+     GET   /api/v1/user
+     */
+    getUser: function getUser() {
+        return axios.get(__WEBPACK_IMPORTED_MODULE_0__config_js__["a" /* ROAST_CONFIG */].API_URL + '/user');
+    },
+
+    /*
+     PUT  /api/v1/user
+     */
+    putUpdateUser: function putUpdateUser(public_visibility, favorite_coffee, flavor_notes, city, state) {
+        return axios.put(__WEBPACK_IMPORTED_MODULE_0__config_js__["a" /* ROAST_CONFIG */].API_URL + '/user', {
+            public_visibility: public_visibility,
+            favorite_coffee: favorite_coffee,
+            flavor_notes: flavor_notes,
+            city: city,
+            state: state
+        });
+    }
+});
 
 /***/ })
 /******/ ]);
