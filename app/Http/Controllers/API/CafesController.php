@@ -22,11 +22,11 @@ class CafesController extends Controller
     public function postNewCafe(){
         $cafe = new Cafe();
 
-        $cafe->name     = Request::get('name');
-        $cafe->address  = Request::get('address');
-        $cafe->city     = Request::get('city');
-        $cafe->state    = Request::get('state');
-        $cafe->zip      = Request::get('zip');
+        $cafe->name     = request()->get('name');
+        $cafe->address  = request()->get('address');
+        $cafe->city     = request()->get('city');
+        $cafe->state    = request()->get('state');
+        $cafe->zip      = request()->get('zip');
 
         $cafe->save();
 

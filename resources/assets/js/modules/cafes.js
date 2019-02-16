@@ -9,8 +9,11 @@ const cafes={
     state:{
         cafes: [],
         cafesLoadStatus: 0,
+
         cafe: {},
-        cafeLoadStatus: 0
+        cafeLoadStatus: 0,
+
+        cafeAddStatus:0
     },
     actions:{
         loadCafes( { commit } ){
@@ -40,6 +43,22 @@ const cafes={
                     commit( 'setCafeLoadStatus', 3 );
                 });
 
+        },
+
+        addCafe({commit,state,dispatch},data){
+             // 状态1表示开始添加
+            commit( 'setCafeAddStatus', 1 );
+
+            CafeAPI.postAddNewCafe( data.name, data.address, data.city, data.state, data.zip )
+                    .then( function( response ){
+                        // 状态2表示添加成功
+                        commit( 'setCafeAddStatus', 2 );
+                        dispatch( 'loadCafes' );
+                    })
+                    .catch( function(){
+                        // 状态3表示添加失败
+                        commit( 'setCafeAddStatus', 3 );
+                    });
         }
     },
     mutations:{
@@ -57,7 +76,11 @@ const cafes={
 
           setCafe( state, cafe ){
             state.cafe = cafe;
-          }
+          },
+          setCafeAddStatus(state, status) {
+            state.cafeAddStatus = status;
+        }
+          
     },
     getters: {
         getCafesLoadStatus( state ){
@@ -74,6 +97,9 @@ const cafes={
 
         getCafe( state ){
             return state.cafe;
+        },
+        getCafeAddStatus( state) {
+            return state.cafeAddStatus;
         }
     }
 }
