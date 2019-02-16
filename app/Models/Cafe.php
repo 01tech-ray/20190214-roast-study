@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class Cafe extends Model
 {
@@ -18,5 +19,14 @@ class Cafe extends Model
 
     public function parent(){
         return $this->hasOne(Cafe::class,'id','parent');
+    }
+
+    public function likes(){
+        return $this->belongsToMany(User::class,'users_cafes_likes','cafe_id','user_id');
+    }
+
+    public function userLike()
+    {
+        return $this->belongsToMany(User::class, 'users_cafes_likes', 'cafe_id', 'user_id')->where('user_id', auth('api')->id());
     }
 }

@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Cafe;
 use App\Http\Requests\StoreCafeRequest;
 use App\Utilities\GaodeMaps;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class CafesController extends Controller
 {
@@ -17,10 +20,13 @@ class CafesController extends Controller
     }
 
     public function getCafe($id){
-        $cafe = Cafe::where('id', '=', $id)->with('brewMethods')->first();
+        $cafe = Cafe::where('id', '=', $id)
+        ->with('brewMethods')
+        ->with('userLike')
+        ->first();
         return response()->json($cafe);
     }
-    
+
     public function postNewCafe(StoreCafeRequest $request)
     {
         // 已添加的咖啡店
@@ -96,5 +102,23 @@ class CafesController extends Controller
         }
     
         return response()->json($addedCafes, 201);
+    }
+
+    public function postLikeCafe($cafeID){
+        $cafe = Cafe::where('id', '=', $cafeID)->first();
+        $cafe->likes()->attach(Auth::user('api')->id, [
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        return response()->json(['cafe_liked' => true], 201);
+    }
+
+    public function deleteLikeCafe($cafeID)
+    {
+        $cafe = Cafe::where('id', '=', $cafeID)->first();
+
+        $cafe->likes()->detach(Auth::user('api')->id);
+
+        return response(null, 204);
     }
 }

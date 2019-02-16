@@ -25,4 +25,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function(){
     Route::post('/cafes','API\CafesController@postNewCafe');
     Route::get('/cafes/{id}','API\CafesController@getCafe');
     Route::get('/brew-methods', 'API\BrewMethodsController@getBrewMethods');
+    // 喜欢咖啡店
+    Route::post('/cafes/{id}/like', 'API\CafesController@postLikeCafe');
+    // 取消喜欢咖啡店
+    Route::delete('/cafes/{id}/like', 'API\CafesController@deleteLikeCafe');
 });
