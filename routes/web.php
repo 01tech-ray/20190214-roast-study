@@ -32,3 +32,4 @@ Route::get('geocode', function () {
 });
 
 Route::get('/brewmethods', 'API\BrewMethodsController@getBrewMethods');
+Route::get('/cafes', 'API\CafesController@getCafes');
