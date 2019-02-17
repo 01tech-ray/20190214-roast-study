@@ -68,6 +68,9 @@
                         </span>
                     </div>
                     <div class="large-12 medium-12 small-12 cell">
+                        <tags-input v-bind:unique="key"></tags-input>
+                    </div>
+                    <div class="large-12 medium-12 small-12 cell">
                         <a class="button" v-on:click="removeLocation(key)">移除位置</a>
                     </div>
                 </div>
@@ -85,7 +88,12 @@
 </template>
 
 <script>
+import TagsInput from '../components/global/forms/TagsInput.vue';
+import EventBus from '../event-bus.js'; 
   export default {
+    components: {
+        TagsInput
+    },
     data(){
       return {
         name: '',
@@ -112,6 +120,11 @@
     },
     created(){
         this.addLocation();
+    },
+    mounted(){
+        EventBus.$on('tags-edited', function (tagsAdded) {
+            this.locations[tagsAdded.unique].tags = tagsAdded.tags;
+        }.bind(this));
     },
     computed: {
         brewMethods() {
@@ -157,7 +170,7 @@
                     text: ''
                 }
             };
-
+            EventBus.$emit('clear-tags');
             this.addLocation();
         },
         removeLocation(key) {
@@ -165,7 +178,7 @@
             this.validations.locations.splice(key, 1);
         },
         addLocation() {
-            this.locations.push({name: '', address: '', city: '', state: '', zip: '', methodsAvailable: []});
+            this.locations.push({name: '', address: '', city: '', state: '', zip: '', methodsAvailable: [], tags: ''});
             this.validations.locations.push({
                 address: {
                     is_valid: true,
