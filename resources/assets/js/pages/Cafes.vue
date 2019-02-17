@@ -16,9 +16,10 @@
 
 <script>
 import CafeMap from '../components/cafes/CafeMap.vue'
+
   export default {
     components:{
-      CafeMap
+      CafeMap,
     }
   }
 </script>

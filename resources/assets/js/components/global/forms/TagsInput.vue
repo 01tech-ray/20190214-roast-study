@@ -122,6 +122,7 @@
 <script>
    import {ROAST_CONFIG} from '../../../config.js';
     import EventBus from '../../../event-bus.js';
+    import _ from 'lodash';
  export default {
         props: ['unique'],
         data() {
@@ -203,18 +204,18 @@
             },
 
             // 根据搜索词查询后端自动提示 API 接口并将结果展示到下拉列表
-            searchTags() {
-                if (this.currentTag.length > 2 && !this.pauseSearch) {
+            searchTags: _.debounce( function(e) {
+                if( this.currentTag.length > 2 && !this.pauseSearch ){
                     this.searchSelectedIndex = -1;
-                    axios.get(ROAST_CONFIG.API_URL + '/tags', {
+                    axios.get( ROAST_CONFIG.API_URL + '/tags' , {
                         params: {
                             search: this.currentTag
                         }
-                    }).then(function (response) {
+                    }).then( function( response ){
                         this.tagSearchResults = response.data;
                     }.bind(this));
                 }
-            },
+            }, 300),
 
             // 检查标签是否重复
             checkDuplicates(tagName) {
