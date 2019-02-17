@@ -1,5 +1,5 @@
 <style lang="scss">
-    @import '~@/abstracts/variables.scss';
+    @import '~@/abstracts/_variables.scss';
     nav.top-navigation{
         background-color: $white;
         height: 50px;

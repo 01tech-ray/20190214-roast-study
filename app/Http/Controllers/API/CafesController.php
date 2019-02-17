@@ -8,8 +8,10 @@ use App\Models\Cafe;
 use App\Http\Requests\StoreCafeRequest;
 use App\Utilities\GaodeMaps;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Utilities\Tagger;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CafesController extends Controller
 {
@@ -66,9 +68,12 @@ class CafesController extends Controller
     
         // 冲泡方法
         $brewMethods = $locations[0]['methodsAvailable'];
+        // 标签信息
+        $tags = $locations[0]['tags'];
         // 保存与此咖啡店关联的所有冲泡方法（保存关联关系）
         $parentCafe->brewMethods()->sync($brewMethods);
-    
+        // 绑定咖啡店与标签
+        Tagger::tagCafe($parentCafe, $tags, $request->user('api')->id);
         // 将当前咖啡店数据推送到已添加咖啡店数组
         array_push($addedCafes, $parentCafe->toArray());
     
@@ -96,7 +101,7 @@ class CafesController extends Controller
                 $cafe->save();
     
                 $cafe->brewMethods()->sync($locations[$i]['methodsAvailable']);
-    
+                Tagger::tagCafe($cafe, $locations[$i]['tags'], $request->user('api')->id);
                 array_push($addedCafes, $cafe->toArray());
             }
         }
@@ -119,6 +124,25 @@ class CafesController extends Controller
 
         $cafe->likes()->detach(Auth::user('api')->id);
 
+        return response(null, 204);
+    }
+
+    public function postAddTags(Request $request,$cafeID){
+        $tags = $request->input('tags');
+        $cafe = Cafe::find($cafeID);
+        Tagger::tagCafe($cafe, $tags, Auth::user('api')->id);
+          // 返回标签
+        $cafe = Cafe::where('id', '=', $cafeID)
+        ->with('brewMethods')
+        ->with('userLike')
+        ->with('tags')
+        ->first();
+
+        return response()->json($cafe,201);
+    }
+
+    public function deleteCafeTag($cafeID,$tagID){
+        DB::table('cafes_users_tags')->where('cafe_id', $cafeID)->where('tag_id', $tagID)->where('user_id', Auth::user('api')->id)->delete();
         return response(null, 204);
     }
 }
